@@ -8,5 +8,13 @@ var dice = Math.floor(Math.random(1, 6) * 6) + 1;
 console.log(dice);
 
 //<div class="player-score" id="score-0">43</div>
-console.log((document.getElementById("#score-0").textContent = dice));
+console.log((document.getElementById("score-0").textContent = dice));
+console.log((document.getElementById("score-1").textContent = dice));
 console.log(document.querySelector(".dice"));
+console.log(
+  document.querySelector(".btn-roll").addEventListener("click", shooShideh)
+);
+
+function shooShideh() {
+  console.log("shoo buuulaa");
+}
