@@ -1,7 +1,7 @@
 // шоо хаях тоглоомонд шаардлагатай хувьсагчдыг зарлая
-
 var activePlayer, scores, roundScore;
 var diceDOM = document.querySelector(".dice");
+var isNewGame;
 
 newGame();
 
@@ -10,45 +10,57 @@ document.querySelector(".btn-new").addEventListener("click", newGame);
 
 // Шоог шидэх эвент листенер
 document.querySelector(".btn-roll").addEventListener("click", function () {
-  var diceNumber = Math.floor(Math.random(1, 6) * 6) + 1;
+  if (isNewGame == true) {
+    var diceNumber = Math.floor(Math.random(1, 6) * 6) + 1;
 
-  diceDOM.style.display = "block";
-  document.querySelector(".dice").src = "dice-" + diceNumber + ".png";
-  console.log("shoo buuulaa " + diceNumber);
+    diceDOM.style.display = "block";
+    document.querySelector(".dice").src = "dice-" + diceNumber + ".png";
+    console.log("shoo buuulaa " + diceNumber);
 
-  if (diceNumber != 1) {
-    roundScore = roundScore + diceNumber;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
-    console.log(roundScore);
+    if (diceNumber != 1) {
+      roundScore = roundScore + diceNumber;
+      document.getElementById("current-" + activePlayer).textContent =
+        roundScore;
+      console.log(roundScore);
+    } else {
+      switchNextPlayer();
+    }
   } else {
-    switchNextPlayer();
+    alert("Тоглоомыг шинээр эхлүүлнэ үү");
   }
 });
 
 // HOLD  товчны эвент листенер
 document.querySelector(".btn-hold").addEventListener("click", function () {
-  scores[activePlayer] = scores[activePlayer] + roundScore;
+  if (isNewGame == true) {
+    scores[activePlayer] = scores[activePlayer] + roundScore;
 
-  document.getElementById("score-" + activePlayer).textContent =
-    scores[activePlayer];
+    document.getElementById("score-" + activePlayer).textContent =
+      scores[activePlayer];
 
-  // Хожсон эсэхийг шалгах
-  if (scores[activePlayer] >= 20) {
-    document.getElementById("name-" + activePlayer).textContent = "Winner !!!";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
+    // Хожсон эсэхийг шалгах
+    if (scores[activePlayer] >= 20) {
+      isNewGame = false;
+      document.getElementById("name-" + activePlayer).textContent =
+        "Winner !!!";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+    } else {
+      switchNextPlayer();
+    }
   } else {
-    switchNextPlayer();
+    alert("Тоглоомыг шинээр эхлүүлнэ үү");
   }
 });
 
 // ALL function dice game
 
 function newGame() {
+  isNewGame = true;
   scores = [0, 0];
   activePlayer = 0;
   roundScore = 0;
